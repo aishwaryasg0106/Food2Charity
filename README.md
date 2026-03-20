@@ -1,18 +1,31 @@
-# Food2Charity
+# 🍱 Food2Charity
 
-Food2Charity is a web platform connecting surplus food from donors (like event managers and bakeries) with people who need it most, such as local shelters and individuals. It empowers NGO agents to track and fulfill food deliveries efficiently.
+Food2Charity is a full-stack web platform designed to reduce food waste by connecting surplus food from donors—such as event organizers, restaurants, and bakeries—with those who need it most, including NGOs, shelters, and individuals.
+
+The platform enables seamless coordination between donors, receivers, and NGO agents, ensuring efficient collection and delivery of food through a structured tracking system. With real-time status updates and simulated GPS tracking, Food2Charity brings transparency and accountability to the entire food redistribution process.
+
+---
+
+## 💡 Key Highlights
+
+- 🌍 Bridges the gap between food surplus and food scarcity  
+- 🚚 End-to-end delivery lifecycle tracking  
+- 🧑‍💼 Dedicated NGO agent dashboard for logistics management  
+- 📍 Simulated GPS tracking for transparency in food transport  
+- ⚡ Built for real-world impact with a simple and intuitive UI  
+
+---
 
 ## Features
 
 1. **Donate Food**: Donors can easily submit surplus food with details and pickup locations.
 2. **Find & Request Food**: Receivers can view available food nearby or submit custom food requests if they can't find what they need.
-3. **Agent Dashboard**: A secure portal for NGO agents to manage the logistics of food distribution.
+3. **Agent Dashboard**: A secure portal for authorized NGO agents to manage the logistics of food distribution.
 4. **End-to-End Delivery Tracking**:
    - `Pending`: Waiting to be assigned.
    - `Assigned`: An agent accepted the task.
    - `Collected`: The agent physically picked up the food from the donor.
    - `Delivered / Fulfilled`: The food successfully reached the receivers.
-5. **Simulated GPS Tracking**: Agents are prompted for GPS coordinates while moving food, ensuring traceability during transit.
 
 ## Tech Stack
 
