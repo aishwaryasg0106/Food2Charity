@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Food - Food2Charity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Food2Charity</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/donate">Donate Food</a></li>
+            <li><a href="/find-food">Find Food</a></li>
+            <li><a href="/login" class="nav-btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="container fade-in">
+        <div class="form-wrapper generate-card">
+            <h2>Donate Surplus Food</h2>
+            <p>Help reduce food waste and feed the hungry.</p>
+            
+            <form id="donateForm">
+                <div class="form-group">
+                    <label for="foodItem">Food Description</label>
+                    <input type="text" id="foodItem" placeholder="e.g. 10 Boxes of Pizza, 50 Sandwiches" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity (Approx. portions)</label>
+                    <input type="number" id="quantity" placeholder="e.g. 20" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Pickup Location</label>
+                    <input type="text" id="location" placeholder="e.g. 123 Main St Bakery" required>
+                </div>
+                <button type="submit" class="btn btn-green submit-btn">Submit Donation</button>
+                <div id="donateMessage" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Food2Charity. All rights reserved.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

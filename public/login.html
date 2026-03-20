@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Food2Charity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Food2Charity</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/donate">Donate Food</a></li>
+            <li><a href="/find-food">Find Food</a></li>
+            <li><a href="/login" class="nav-btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="container fade-in">
+        <div class="form-wrapper auth-card">
+            <h2>Welcome Back</h2>
+            <p>Login to manage operations<br><small>Demo Credentials: <b>agent</b> | <b>password123</b></small></p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-blue submit-btn">Login</button>
+                <div id="loginMessage" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Food2Charity. All rights reserved.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

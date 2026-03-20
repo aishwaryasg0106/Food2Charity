@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Food - Food2Charity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Food2Charity</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/donate">Donate Food</a></li>
+            <li><a href="/find-food">Find Food</a></li>
+            <li><a href="/login" class="nav-btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="container fade-in" style="flex-direction: column; gap: 40px;">
+        <div class="list-wrapper">
+            <h2>Available Food near You</h2>
+            <p>Browse recent food donations available for pickup.</p>
+            
+            <div id="foodList" class="food-grid">
+                <!-- Food items will be loaded dynamically here via JS -->
+                <div class="loading">Loading available food...</div>
+            </div>
+        </div>
+
+        <div class="form-wrapper need-card" style="margin-bottom: 40px;">
+            <h2>Can't find what you need?</h2>
+            <p>Submit a request and NGO agents will help match you with upcoming donations.</p>
+            
+            <form id="requestForm">
+                <div class="form-group">
+                    <label for="receiverName">Organization / Individual Name</label>
+                    <input type="text" id="receiverName" placeholder="e.g. Local Shelter" required>
+                </div>
+                <div class="form-group">
+                    <label for="neededFood">What kind of food do you need?</label>
+                    <input type="text" id="neededFood" placeholder="e.g. Meals for 20 people" required>
+                </div>
+                <div class="form-group">
+                    <label for="reqLocation">Your Location</label>
+                    <input type="text" id="reqLocation" placeholder="e.g. Westside Community Center" required>
+                </div>
+                <button type="submit" class="btn btn-orange submit-btn">Submit Request</button>
+                <div id="requestMessage" class="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Food2Charity. All rights reserved.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

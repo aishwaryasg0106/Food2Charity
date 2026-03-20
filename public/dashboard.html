@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Dashboard - Food2Charity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .dashboard-col {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .dashboard-col h3 {
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eaeaea;
+        }
+        .dashboard-col.donors h3 { color: var(--primary-color); border-color: var(--primary-color); }
+        .dashboard-col.receivers h3 { color: var(--accent-color); border-color: var(--accent-color); }
+        
+        .dash-card {
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: box-shadow 0.2s;
+        }
+        .dash-card:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .dash-card h4 { margin-bottom: 0.25rem; }
+        .dash-card p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+        .dash-badge {
+            display: inline-block; padding: 0.1rem 0.5rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem;
+        }
+        .badge-donor { background: rgba(40,167,69,0.1); color: var(--primary-color); }
+        .badge-receiver { background: rgba(230,126,34,0.1); color: var(--accent-color); }
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Food2Charity - Agent Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/" class="nav-btn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="dashboard-container fade-in">
+        <div class="dashboard-col donors">
+            <h3>Available Donations (from Donors)</h3>
+            <div id="dashDonations">
+                <p>Loading donations...</p>
+            </div>
+        </div>
+        <div class="dashboard-col receivers">
+            <h3>Food Requests (from Receivers)</h3>
+            <div id="dashRequests">
+                <p>Loading requests...</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Food2Charity. All rights reserved.
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Dedicated logic for the dashboard page (since it's specific to agents)
+        document.addEventListener('DOMContentLoaded', async () => {
+            const fetchDashboardData = async () => {
+                const donContainer = document.getElementById('dashDonations');
+                const reqContainer = document.getElementById('dashRequests');
+                
+                try {
+                    const renderDonorStatusButton = (d) => {
+                        if(d.status === 'pending') return `<button class="btn btn-green" style="float:right;width:auto;padding:0.2rem 0.6rem;margin-top:0;" onclick="updateStatus('donation', ${d.id}, 'assigned')">Accept</button>`;
+                        if(d.status === 'assigned') return `<button class="btn btn-blue" style="float:right;width:auto;padding:0.2rem 0.6rem;margin-top:0;" onclick="updateStatus('donation', ${d.id}, 'collected')">Mark Collected</button>`;
+                        if(d.status === 'collected') return `<button class="btn btn-orange" style="float:right;width:auto;padding:0.2rem 0.6rem;margin-top:0;" onclick="updateStatus('donation', ${d.id}, 'delivered')">Mark Delivered</button>`;
+                        if(d.status === 'delivered') return `<span class="dash-badge" style="background:#d4edda;color:#155724;float:right;">Delivered ✅</span>`;
+                        return '';
+                    };
+
+                    const renderReceiverStatusButton = (r) => {
+                        if(r.status === 'pending') return `<button class="btn btn-orange" style="float:right;width:auto;padding:0.2rem 0.6rem;margin-top:0;" onclick="updateStatus('request', ${r.id}, 'assigned')">Accept Need</button>`;
+                        if(r.status === 'assigned') return `<button class="btn btn-blue" style="float:right;width:auto;padding:0.2rem 0.6rem;margin-top:0;" onclick="updateStatus('request', ${r.id}, 'fulfilled')">Mark Fulfilled</button>`;
+                        if(r.status === 'fulfilled') return `<span class="dash-badge" style="background:#d4edda;color:#155724;float:right;">Fulfilled ✅</span>`;
+                        return '';
+                    };
+
+                    // Fetch donations
+                    const donRes = await fetch('/api/food');
+                    const donData = await donRes.json();
+                    
+                    if (donData.success && donData.data.length > 0) {
+                        donContainer.innerHTML = donData.data.sort((a,b)=>b.timeMs-a.timeMs).map(d => `
+                            <div class="dash-card">
+                                <span class="dash-badge badge-donor">Donation #${d.id}</span>
+                                <span class="dash-badge" style="float:right; background:#eee;color:#333;margin-right:5px;">State: ${d.status.toUpperCase()}</span>
+                                ${renderDonorStatusButton(d)}
+                                <div style="clear:both;"></div>
+                                <h4>${d.foodItem}</h4>
+                                <p><strong>Qty:</strong> ${d.quantity}</p>
+                                <p><strong>Location:</strong> ${d.location}</p>
+                            </div>
+                        `).join('');
+                    } else { donContainer.innerHTML = '<p>No donations available.</p>'; }
+
+                    // Fetch requests
+                    const reqRes = await fetch('/api/requests');
+                    const reqData = await reqRes.json();
+                    
+                    if (reqData.success && reqData.data.length > 0) {
+                        reqContainer.innerHTML = reqData.data.sort((a,b)=>b.timeMs-a.timeMs).map(r => `
+                            <div class="dash-card">
+                                <span class="dash-badge badge-receiver">Request #${r.id}</span>
+                                <span class="dash-badge" style="float:right; background:#eee;color:#333;margin-right:5px;">State: ${r.status.toUpperCase()}</span>
+                                ${renderReceiverStatusButton(r)}
+                                <div style="clear:both;"></div>
+                                <h4>${r.receiverName}</h4>
+                                <p><strong>Needs:</strong> ${r.neededFood}</p>
+                                <p><strong>Location:</strong> ${r.location}</p>
+                            </div>
+                        `).join('');
+                    } else { reqContainer.innerHTML = '<p>No active requests.</p>'; }
+
+                } catch(e) {
+                    donContainer.innerHTML = '<p style="color:red">Error loading data.</p>';
+                    reqContainer.innerHTML = '<p style="color:red">Error loading data.</p>';
+                }
+            };
+            fetchDashboardData();
+
+            window.updateStatus = async (type, id, status) => {
+                try {
+                    const res = await fetch(`/api/${type}/${id}/status`, { 
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status })
+                    });
+                    const data = await res.json();
+                    if(data.success) {
+                        fetchDashboardData();
+                    } else {
+                        alert('Failed to update status');
+                    }
+                } catch(e) {
+                    alert('Error updating item');
+                }
+            };
+        });
+    </script>
+</body>
+</html>
