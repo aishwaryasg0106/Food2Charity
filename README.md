@@ -74,3 +74,4 @@ Food2Charity/
     ├── style.css         # Main stylesheet for the application
     └── script.js         # Client-side JavaScript logic for API integration
 ```
+- Practice edit in a test branch!
